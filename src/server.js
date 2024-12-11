@@ -1,17 +1,19 @@
 require("express-async-errors");
 require("dotenv/config");
 
-
 const express = require("express");
 const routes = require("./routes");
 const cors = require("cors");
 
-
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
-
-
 app.use(routes);
 
 app.use((error, request, response, next) => {
@@ -27,9 +29,9 @@ app.use((error, request, response, next) => {
   return response.status(500).json({
     status: "error",
     message: "Internal server error",
-  })
+  });
 });
 
 const PORT = process.env.PORT || 3000;
-//listen é para esperar na PORT a variavel que criei para ser a porta;
-app.listen(PORT, () => console.log(`Server is running on Port ${PORT}`))
+
+app.listen(PORT, () => console.log(`Server is running on Port ${PORT}`));
