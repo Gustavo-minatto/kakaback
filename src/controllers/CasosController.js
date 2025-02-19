@@ -2,7 +2,7 @@ const knex = require("../database/knex");
 
 class CasesController {
   async create(request, response) {
-    const { cpf, decisao, protocolado, spc, boa, serasa, cenprot, quod } = request.body;
+    const { cpf, decisao, nome, protocolado, spc, boa, serasa, cenprot, quod } = request.body;
 
     try {
       const cliente = await knex("clientes").where({ cpf }).first();
@@ -13,6 +13,7 @@ class CasesController {
 
       const [id] = await knex("casos").insert({
         cpf,
+        nome,
         decisao,
         protocolado,
         spc,
@@ -40,7 +41,7 @@ class CasesController {
 
   async update(request, response) {
     const { id } = request.params;
-    const { cpf, decisao, protocolado, spc, boa, serasa, cenprot, quod } = request.body;
+    const { cpf, nome, decisao, protocolado, spc, boa, serasa, cenprot, quod } = request.body;
 
     try {
       const caso = await knex("casos").where({ id }).first();
@@ -50,7 +51,7 @@ class CasesController {
       }
 
       await knex("casos")
-        .update({ cpf, decisao, protocolado, spc, boa, serasa, cenprot, quod })
+        .update({ cpf, nome, decisao, protocolado, spc, boa, serasa, cenprot, quod })
         .where({ id });
 
       return response.status(200).json({ message: "Caso atualizado com sucesso!" });

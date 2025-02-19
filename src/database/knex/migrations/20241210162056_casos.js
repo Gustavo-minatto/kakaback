@@ -2,6 +2,7 @@ exports.up = function (knex) {
   return knex.schema.createTable("casos", function (table) {
     table.increments("id").primary();
     table.string("cpf").notNullable();
+    table.string("nome").notNullable();
     table.string("decisao").notNullable();
     table.string("protocolado").notNullable();
     table.string("spc").notNullable();
